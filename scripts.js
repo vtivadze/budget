@@ -33,10 +33,13 @@ function isNotEmptyString(data) {
 }
 
 function getMonthlyBudgetFromUser() {
+    const message = 'What is your budget for a month?';
+    const defaultValue = 'Enter number value';
+
     let money;
 
     do {
-        money = prompt('What is your budget for a month?', 'Enter number value');
+        money = prompt(message, defaultValue);
     } while (isEmptyNumber(money));
     money = parseFloat(money);
 
@@ -44,70 +47,73 @@ function getMonthlyBudgetFromUser() {
 }
 
 function getTimeDataFromUser() {
+    const message = 'Enter date in format YYYY-MM-DD';
+    const defaultValue = 'Format is obligatory';
+
     let time;
 
     do {
-        time = prompt('Enter date in format YYYY-MM-DD', 'Format is obligatory');
-        console.log(time);
-        console.log(hasCorrectTimeFormat(time));
+        time = prompt(message, defaultValue);
     } while (!hasCorrectTimeFormat(time));
 
     return time;
 }
 
 function getExpensesFromUser() {
-    const obligatoryExpensesCount = 2;
+    const expensesCount = 2;
+    const message = 'Such obligatory expenses item already exists!';
 
     let expenses = {};
-    let obligatoryExpenseName;
-    let obligatoryExpenseAmount;
+    let expenseName;
+    let expenseAmount;
 
-    for (let i = 0; i < obligatoryExpensesCount; i++) {
+    for (let i = 0; i < expensesCount; i++) {
 
-        obligatoryExpenseName = getObligatoryExpenseNameFromUser(i);
+        expenseName = getExpenseNameFromUser(i);
     
-        if (existsObligatoryExpenceName(expenses, obligatoryExpenseName)) {
-            alert('Error: "' + obligatoryExpenseName + '" - such obligatory expenses item already exists!');
+        if (existsObligatoryExpenceName(expenses, expenseName)) {
+            alert(message);
             i--;
             continue;
         }
     
-        obligatoryExpenseAmount = getObligatoryExpenceAmountFromUser(obligatoryExpenseName);
+        expenseAmount = getExpenceAmountFromUser();
     
-        expenses[obligatoryExpenseName] = obligatoryExpenseAmount;
+        expenses[expenseName] = expenseAmount;
     
     }
 
     return expenses;
 }
 
-function getObligatoryExpenseNameFromUser(i) {
-    let obligatoryExpenseName;
-    let promptMessage;
-    let another;
+function getExpenseNameFromUser(i) {
+    const message = 'Enter obligatory expenses item name for this month:';
+    const defaultValue = 'Number is required';
 
-    another = i > 0 ? ' another ' : ' ';
-    promptMessage = 'Enter' + another + 'obligatory expenses item name for this month:';
+    let expenseName;
 
     do {
-        obligatoryExpenseName = prompt(promptMessage, '');
-    } while (!isNotEmptyString(obligatoryExpenseName));
+        expenseName = prompt(message, defaultValue);
+    } while (!isNotEmptyString(expenseName));
 
-    return obligatoryExpenseName;
+    return expenseName;
 }
 
-function getObligatoryExpenceAmountFromUser(obligatoryExpenseName) {
-    let obligatoryExpenseAmount;
+function getExpenceAmountFromUser() {
+    const message = 'How much will it cost for this month?';
+    const defaultValue = 'Enter number value';
+
+    let expenseAmount;
 
     do {
-        obligatoryExpenseAmount = prompt('How much will it cost ' + obligatoryExpenseName + ' for this month?', 'Enter number value');
-    } while (isEmptyNumber(obligatoryExpenseAmount));
+        expenseAmount = prompt(message, defaultValue);
+    } while (isEmptyNumber(expenseAmount));
 
-    return parseFloat(obligatoryExpenseAmount);
+    return parseFloat(expenseAmount);
 }
 
-function existsObligatoryExpenceName(expenses, obligatoryExpenseName) {
-    return expenses[obligatoryExpenseName] !== undefined;
+function existsObligatoryExpenceName(expenses, expenseName) {
+    return expenses[expenseName] !== undefined;
 }
 
 function getDailyBudget(appData) {
