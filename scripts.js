@@ -40,7 +40,11 @@ function hasCorrectTimeFormat(time) {
 function isCorrectString(data) {
     const allowedStringLength = 50;
 
-    return typeof(data) === 'string' && data !== '' && data.length <= allowedStringLength ;
+    return (
+        typeof(data) === 'string' &&
+        data !== '' &&
+        data.length <= allowedStringLength
+    );
 }
 
 function askMonthlyBudget() {
