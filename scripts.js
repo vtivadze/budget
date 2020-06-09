@@ -1,29 +1,20 @@
 'use strict';
 
-let money,
-    time,
-    expenses,
-    appData,
-    dailyBudget;
+let money = getMonthlyBudgetFromUser();
+let time = getTimeDataFromUser();
 
-const obligatoryExpensesCount = 2;
-
-money = getMonthlyBudgetFromUser();
-time = getTimeDataFromUser();
-expenses = getExpensesFromUser(obligatoryExpensesCount);
-
-appData = {
+let appData = {
     budget: money,
+    expenses: {},
+    optionalExpenses: {},
+    income: [],
     timeData: time,
-    expenses: expenses,
-    optionalExpenses: "",
-    income: "",
     savings: false,
 };
 
-dailyBudget = getDailyBudget(appData);
+appData.expenses = getExpensesFromUser();
 
-alert(dailyBudget);
+alert( getDailyBudget(appData) );
 
 
 function isEmptyNumber(data) {
@@ -65,6 +56,8 @@ function getTimeDataFromUser() {
 }
 
 function getExpensesFromUser() {
+    const obligatoryExpensesCount = 2;
+
     let expenses = {};
     let obligatoryExpenseName;
     let obligatoryExpenseAmount;
@@ -94,7 +87,7 @@ function getObligatoryExpenseNameFromUser(i) {
     let another;
 
     another = i > 0 ? ' another ' : ' ';
-    promptMessage = 'Enter' + another + 'obligatory expenses item name for a month:';
+    promptMessage = 'Enter' + another + 'obligatory expenses item name for this month:';
 
     do {
         obligatoryExpenseName = prompt(promptMessage, '');
@@ -107,7 +100,7 @@ function getObligatoryExpenceAmountFromUser(obligatoryExpenseName) {
     let obligatoryExpenseAmount;
 
     do {
-        obligatoryExpenseAmount = prompt('How much will it cost ' + obligatoryExpenseName + ' for a month?', 'Enter number value');
+        obligatoryExpenseAmount = prompt('How much will it cost ' + obligatoryExpenseName + ' for this month?', 'Enter number value');
     } while (isEmptyNumber(obligatoryExpenseAmount));
 
     return parseFloat(obligatoryExpenseAmount);
