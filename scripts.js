@@ -1,7 +1,7 @@
 'use strict';
 
-let money = getMonthlyBudgetFromUser();
-let time = getTimeDataFromUser();
+let money = askMonthlyBudget();
+let time = askTimeData();
 
 let appData = {
     budget: money,
@@ -12,13 +12,22 @@ let appData = {
     savings: false,
 };
 
-appData.expenses = getExpensesFromUser();
+appData.expenses = askExpenses();
+appData.moneyPerDay = getMoneyPerDay(appData);
 
-alert( getDailyBudget(appData) );
+alert('Daily budget: ' + appData.moneyPerDay);
+
+console.log( getWealthLevel(appData.moneyPerDay) );
 
 
-function isEmptyNumber(data) {
-    return data === null || data === '' || isNaN(data);
+function isCorrectNumber(data) {
+    const minNumber = 0;
+    const maxNumber = 5000;
+
+    let isNumber = data !== null && data !== '' && !isNaN(data);
+    let isCorrectNumber = data > minNumber && data < maxNumber;
+
+    return isNumber && isCorrectNumber;
 }
 
 function hasCorrectTimeFormat(time) {
@@ -28,25 +37,26 @@ function hasCorrectTimeFormat(time) {
     return regexpTime.test(time);
 }
 
-function isNotEmptyString(data) {
-    return typeof data === 'string' && data !== '';
+function isCorrectString(data) {
+    const allowedStringLength = 50;
+
+    return typeof(data) === 'string' && data !== '' && data.length <= allowedStringLength ;
 }
 
-function getMonthlyBudgetFromUser() {
+function askMonthlyBudget() {
     const message = 'What is your budget for a month?';
-    const defaultValue = 'Enter number value';
+    const defaultValue = 'Enter positive number value';
 
     let money;
 
     do {
         money = prompt(message, defaultValue);
-    } while (isEmptyNumber(money));
-    money = parseFloat(money);
+    } while (!isCorrectNumber(money));
 
-    return money;
+    return parseFloat(money);
 }
 
-function getTimeDataFromUser() {
+function askTimeData() {
     const message = 'Enter date in format YYYY-MM-DD';
     const defaultValue = 'Format is obligatory';
 
@@ -59,7 +69,7 @@ function getTimeDataFromUser() {
     return time;
 }
 
-function getExpensesFromUser() {
+function askExpenses() {
     const expensesCount = 2;
     const message = 'Such obligatory expenses item already exists!';
 
@@ -69,15 +79,15 @@ function getExpensesFromUser() {
 
     for (let i = 0; i < expensesCount; i++) {
 
-        expenseName = getExpenseNameFromUser(i);
+        expenseName = askExpenseName(i);
     
-        if (existsObligatoryExpenceName(expenses, expenseName)) {
+        if (hasExpenseName(expenses, expenseName)) {
             alert(message);
             i--;
             continue;
         }
     
-        expenseAmount = getExpenceAmountFromUser();
+        expenseAmount = askExpenseAmount();
     
         expenses[expenseName] = expenseAmount;
     
@@ -86,37 +96,36 @@ function getExpensesFromUser() {
     return expenses;
 }
 
-function getExpenseNameFromUser(i) {
+function askExpenseName(i) {
     const message = 'Enter obligatory expenses item name for this month:';
-    const defaultValue = 'Number is required';
 
     let expenseName;
 
     do {
-        expenseName = prompt(message, defaultValue);
-    } while (!isNotEmptyString(expenseName));
+        expenseName = prompt(message);
+    } while (!isCorrectString(expenseName));
 
     return expenseName;
 }
 
-function getExpenceAmountFromUser() {
+function askExpenseAmount() {
     const message = 'How much will it cost for this month?';
-    const defaultValue = 'Enter number value';
+    const defaultValue = 'Enter positive number value';
 
     let expenseAmount;
 
     do {
         expenseAmount = prompt(message, defaultValue);
-    } while (isEmptyNumber(expenseAmount));
+    } while (!isCorrectNumber(expenseAmount));
 
     return parseFloat(expenseAmount);
 }
 
-function existsObligatoryExpenceName(expenses, expenseName) {
+function hasExpenseName(expenses, expenseName) {
     return expenses[expenseName] !== undefined;
 }
 
-function getDailyBudget(appData) {
+function getMoneyPerDay(appData) {
     let dailyBudget;
     let budget = appData.budget;
 
@@ -125,4 +134,29 @@ function getDailyBudget(appData) {
     dailyBudget = Math.round( (budget / daysInMonth) * 100 ) / 100;
 
     return dailyBudget;
+}
+
+function getWealthLevel(moneyPerDay) {
+    const lowBoundary = 100;
+    const highBoundary = 2000;
+
+    const lowMessage = 'Minimal wealth level!';
+    const middleMessage = 'Middle wealth level!';
+    const highMessage = 'High wealth level!';
+
+    const errorMessage = 'An error has occured!';
+
+    let message;
+
+    if (moneyPerDay < lowBoundary) {
+        message = lowMessage;
+    } else if (moneyPerDay <= highBoundary) {
+        message = middleMessage;
+    } else if (moneyPerDay > highBoundary) {
+        message = highMessage;
+    } else {
+        message = errorMessage;
+    }
+
+    return message;
 }
