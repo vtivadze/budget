@@ -1,25 +1,27 @@
 'use strict';
 
-let money = askMonthlyBudget();
-let time = askTimeData();
-
 let appData = {
-    budget: money,
+    budget: 0,
     expenses: {},
     optionalExpenses: {},
     income: [],
-    timeData: time,
+    timeData: '',
     savings: false,
 };
 
-appData.expenses = askExpenses();
-appData.moneyPerDay = getMoneyPerDay(appData);
+start();
 
 alert('Daily budget: ' + appData.moneyPerDay);
-
 console.log( getWealthLevel(appData.moneyPerDay) );
 
 //  app functions
+function start() {
+    askMonthlyBudget();
+    askTimeData();
+    askExpenses();
+    calcMoneyPerDay();
+}
+
 function askMonthlyBudget() {
     const message = 'What is your budget for a month?';
     const defaultValue = 'Enter positive number value';
@@ -30,7 +32,7 @@ function askMonthlyBudget() {
         money = prompt(message, defaultValue);
     } while (!isCorrectNumber(money));
 
-    return parseFloat(money);
+    appData.budget = parseFloat(money);
 }
 
 function askTimeData() {
@@ -43,7 +45,8 @@ function askTimeData() {
         time = prompt(message, defaultValue);
     } while (!hasCorrectTimeFormat(time));
 
-    return time;
+    appData.timeData = time;
+
 }
 
 function askExpenses() {
@@ -70,7 +73,7 @@ function askExpenses() {
     
     }
 
-    return expenses;
+    appData.expenses = expenses;
 }
 
 function askExpenseName(i) {
@@ -102,15 +105,10 @@ function hasExpenseName(expenses, expenseName) {
     return expenses[expenseName] !== undefined;
 }
 
-function getMoneyPerDay(appData) {
-    let dailyBudget;
-    let budget = appData.budget;
-
+function calcMoneyPerDay() {
     const daysInMonth = 30;
 
-    dailyBudget = Math.round( (budget / daysInMonth) * 100 ) / 100;
-
-    return dailyBudget;
+    appData.moneyPerDay = Math.round( (appData.budget / daysInMonth) * 100 ) / 100;
 }
 
 function getWealthLevel(moneyPerDay) {
@@ -139,6 +137,16 @@ function getWealthLevel(moneyPerDay) {
 }
 
 // helper functions
+function isCorrectNumber(data) {
+    const minNumber = 0;
+    const maxNumber = 5000;
+
+    let isNumber = data !== null && data !== '' && !isNaN(data);
+    let isCorrectNumber = data > minNumber && data < maxNumber;
+
+    return isNumber && isCorrectNumber;
+}
+
 function hasCorrectTimeFormat(time) {
     const timeFormat = '^20[0-9]{2}-(0[0-9]{1}|1[0-2]{1})-([0-2]{1}[0-9]{1}|3[0-1]{1})$';
     const regexpTime = RegExp(timeFormat);
@@ -156,12 +164,3 @@ function isCorrectString(data) {
     );
 }
 
-function isCorrectNumber(data) {
-    const minNumber = 0;
-    const maxNumber = 5000;
-
-    let isNumber = data !== null && data !== '' && !isNaN(data);
-    let isCorrectNumber = data > minNumber && data < maxNumber;
-
-    return isNumber && isCorrectNumber;
-}
