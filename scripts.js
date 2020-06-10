@@ -19,34 +19,7 @@ alert('Daily budget: ' + appData.moneyPerDay);
 
 console.log( getWealthLevel(appData.moneyPerDay) );
 
-
-function isCorrectNumber(data) {
-    const minNumber = 0;
-    const maxNumber = 5000;
-
-    let isNumber = data !== null && data !== '' && !isNaN(data);
-    let isCorrectNumber = data > minNumber && data < maxNumber;
-
-    return isNumber && isCorrectNumber;
-}
-
-function hasCorrectTimeFormat(time) {
-    const timeFormat = '^20[0-9]{2}-(0[0-9]{1}|1[0-2]{1})-([0-2]{1}[0-9]{1}|3[0-1]{1})$';
-    const regexpTime = RegExp(timeFormat);
-
-    return regexpTime.test(time);
-}
-
-function isCorrectString(data) {
-    const allowedStringLength = 50;
-
-    return (
-        typeof(data) === 'string' &&
-        data !== '' &&
-        data.length <= allowedStringLength
-    );
-}
-
+//  app functions
 function askMonthlyBudget() {
     const message = 'What is your budget for a month?';
     const defaultValue = 'Enter positive number value';
@@ -163,4 +136,32 @@ function getWealthLevel(moneyPerDay) {
     }
 
     return message;
+}
+
+// helper functions
+function hasCorrectTimeFormat(time) {
+    const timeFormat = '^20[0-9]{2}-(0[0-9]{1}|1[0-2]{1})-([0-2]{1}[0-9]{1}|3[0-1]{1})$';
+    const regexpTime = RegExp(timeFormat);
+
+    return regexpTime.test(time);
+}
+
+function isCorrectString(data) {
+    const allowedStringLength = 50;
+
+    return (
+        typeof(data) === 'string' &&
+        data !== '' &&
+        data.length <= allowedStringLength
+    );
+}
+
+function isCorrectNumber(data) {
+    const minNumber = 0;
+    const maxNumber = 5000;
+
+    let isNumber = data !== null && data !== '' && !isNaN(data);
+    let isCorrectNumber = data > minNumber && data < maxNumber;
+
+    return isNumber && isCorrectNumber;
 }
