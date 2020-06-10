@@ -12,7 +12,7 @@ let appData = {
 start();
 
 alert('Daily budget: ' + appData.moneyPerDay);
-console.log( getWealthLevel(appData.moneyPerDay) );
+alert( getWealthLevel() );
 
 //  app functions
 function start() {
@@ -77,6 +77,51 @@ function askExpenses() {
     appData.expenses = expenses;
 }
 
+function calcMoneyPerDay() {
+    const daysInMonth = 30;
+
+    appData.moneyPerDay = Math.round( (appData.budget / daysInMonth) * 100 ) / 100;
+}
+
+function getWealthLevel() {
+    const lowBoundary = 100;
+    const highBoundary = 2000;
+
+    const lowMessage = 'Minimal wealth level!';
+    const middleMessage = 'Middle wealth level!';
+    const highMessage = 'High wealth level!';
+
+    const errorMessage = 'An error has occured!';
+
+    let message;
+    let moneyPerDay = appData.moneyPerDay;
+
+    if (moneyPerDay < lowBoundary) {
+        message = lowMessage;
+    } else if (moneyPerDay <= highBoundary) {
+        message = middleMessage;
+    } else if (moneyPerDay > highBoundary) {
+        message = highMessage;
+    } else {
+        message = errorMessage;
+    }
+
+    return message;
+}
+
+function checkSavings() {
+    if (appData.savings === true) {
+        let save = askSaveAmount();
+        let percent = askSavePercent();
+
+        let monthlyIncome = save / 100 / 12 * percent;
+        appData.monthlyIncome = + parseFloat(monthlyIncome).toFixed(2);
+
+        alert('Montly income from your depostit is: ' + appData.monthlyIncome);
+    }
+}
+
+// secondary functions
 function askExpenseName(i) {
     const message = 'Enter obligatory expenses item name for this month:';
 
@@ -106,49 +151,6 @@ function hasExpenseName(expenses, expenseName) {
     return expenses[expenseName] !== undefined;
 }
 
-function calcMoneyPerDay() {
-    const daysInMonth = 30;
-
-    appData.moneyPerDay = Math.round( (appData.budget / daysInMonth) * 100 ) / 100;
-}
-
-function getWealthLevel(moneyPerDay) {
-    const lowBoundary = 100;
-    const highBoundary = 2000;
-
-    const lowMessage = 'Minimal wealth level!';
-    const middleMessage = 'Middle wealth level!';
-    const highMessage = 'High wealth level!';
-
-    const errorMessage = 'An error has occured!';
-
-    let message;
-
-    if (moneyPerDay < lowBoundary) {
-        message = lowMessage;
-    } else if (moneyPerDay <= highBoundary) {
-        message = middleMessage;
-    } else if (moneyPerDay > highBoundary) {
-        message = highMessage;
-    } else {
-        message = errorMessage;
-    }
-
-    return message;
-}
-
-function checkSavings() {
-    if (appData.savings === true) {
-        let save = askSaveAmount();
-        let percent = askSavePercent();
-
-        let monthlyIncome = save / 100 / 12 * percent;
-        appData.monthlyIncome = + parseFloat(monthlyIncome).toFixed(2);
-
-        alert('Montly income from your depostit is: ' + appData.monthlyIncome);
-    }
-}
-
 function askSaveAmount() {
     let message = 'How much does it your accumulations?';
     let defaultValue = 'Enter number value!';
@@ -172,6 +174,7 @@ function askSavePercent() {
 
     return + parseFloat(percent).toFixed(2);
 }
+
 
 // helper functions
 function isCorrectNumber(data) {
