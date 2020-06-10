@@ -32,7 +32,7 @@ function askMonthlyBudget() {
         money = prompt(message, defaultValue);
     } while (!isCorrectNumber(money));
 
-    appData.budget = parseFloat(money);
+    appData.budget = + parseFloat(money).toFixed(2);
 }
 
 function askTimeData() {
@@ -98,7 +98,7 @@ function askExpenseAmount() {
         expenseAmount = prompt(message, defaultValue);
     } while (!isCorrectNumber(expenseAmount));
 
-    return parseFloat(expenseAmount);
+    return + parseFloat(expenseAmount).toFixed(2);
 }
 
 function hasExpenseName(expenses, expenseName) {
