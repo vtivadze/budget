@@ -6,7 +6,7 @@ let appData = {
     optionalExpenses: {},
     income: [],
     timeData: '',
-    savings: false,
+    savings: true,
 };
 
 start();
@@ -20,6 +20,7 @@ function start() {
     askTimeData();
     askExpenses();
     calcMoneyPerDay();
+    checkSavings();
 }
 
 function askMonthlyBudget() {
@@ -136,15 +137,60 @@ function getWealthLevel(moneyPerDay) {
     return message;
 }
 
+function checkSavings() {
+    if (appData.savings === true) {
+        let save = askSaveAmount();
+        let percent = askSavePercent();
+
+        let monthlyIncome = save / 100 / 12 * percent;
+        appData.monthlyIncome = + parseFloat(monthlyIncome).toFixed(2);
+
+        alert('Montly income from your depostit is: ' + appData.monthlyIncome);
+    }
+}
+
+function askSaveAmount() {
+    let message = 'How much does it your accumulations?';
+    let defaultValue = 'Enter number value!';
+    let amount;
+
+    do {
+        amount = prompt(message, defaultValue);
+    } while ( !isCorrectNumber(amount) );
+
+    return + parseFloat(amount).toFixed(2);
+}
+
+function askSavePercent() {
+    let message = 'How much does it percent of your deposit?';
+    let defaultValue = 'Enter number value';
+    let percent;
+
+    do {
+        percent = prompt(message, defaultValue);
+    } while ( !isCorrectNumber(percent) );
+
+    return + parseFloat(percent).toFixed(2);
+}
+
 // helper functions
 function isCorrectNumber(data) {
     const minNumber = 0;
     const maxNumber = 5000;
 
     let isNumber = data !== null && data !== '' && !isNaN(data);
-    let isCorrectNumber = data > minNumber && data < maxNumber;
+    if ( ! isNumber ) {
+        alert('Enter number value!');
+        return false;
+    }
 
-    return isNumber && isCorrectNumber;
+    let isCorrectNumber = data > minNumber && data < maxNumber;
+    if ( ! isCorrectNumber ) {
+        alert('Enter number between ' + minNumber + ' and ' + maxNumber + '!');
+        return false;
+    }
+
+    return true;
 }
 
 function hasCorrectTimeFormat(time) {
