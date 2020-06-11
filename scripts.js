@@ -188,7 +188,7 @@ function askSavePercent() {
 }
 
 function askOptExpenseItem() {
-    const message = 'What is your optional expence item?';
+    const message = 'What is your optional expense item?';
     let item;
 
     do {
