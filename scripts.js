@@ -11,15 +11,16 @@ let appData = {
 
 start();
 
-alert('Daily budget: ' + appData.moneyPerDay);
-alert( getWealthLevel() );
+alert( detectLevel() );
+
+// chooseOptExpenses();
 
 //  app functions
 function start() {
     askMonthlyBudget();
     askTimeData();
-    askExpenses();
-    calcMoneyPerDay();
+    chooseExpenses();
+    detectDayBudget();
     checkSavings();
 }
 
@@ -50,19 +51,19 @@ function askTimeData() {
 
 }
 
-function askExpenses() {
+function chooseExpenses() {
     const expensesCount = 2;
     const message = 'Such obligatory expenses item already exists!';
 
     let expenses = {};
-    let expenseName;
+    let expenseItem;
     let expenseAmount;
 
     for (let i = 0; i < expensesCount; i++) {
 
-        expenseName = askExpenseName(i);
+        expenseItem = askExpenseItem(i);
     
-        if (hasExpenseName(expenses, expenseName)) {
+        if (hasExpenseItem(expenses, expenseItem)) {
             alert(message);
             i--;
             continue;
@@ -70,20 +71,22 @@ function askExpenses() {
     
         expenseAmount = askExpenseAmount();
     
-        expenses[expenseName] = expenseAmount;
+        expenses[expenseItem] = expenseAmount;
     
     }
 
     appData.expenses = expenses;
 }
 
-function calcMoneyPerDay() {
+function detectDayBudget() {
     const daysInMonth = 30;
 
     appData.moneyPerDay = Math.round( (appData.budget / daysInMonth) * 100 ) / 100;
+
+    alert('Daily budget: ' + appData.moneyPerDay);
 }
 
-function getWealthLevel() {
+function detectLevel() {
     const lowBoundary = 100;
     const highBoundary = 2000;
 
@@ -121,17 +124,26 @@ function checkSavings() {
     }
 }
 
+function chooseOptExpenses() {
+    const optExpensesCount = 3;
+
+    for (let i = 1; i <= optExpensesCount; i++) {
+        appData.optionalExpenses[i] = askOptExpenseItem();
+    }
+}
+
+
 // secondary functions
-function askExpenseName(i) {
+function askExpenseItem(i) {
     const message = 'Enter obligatory expenses item name for this month:';
 
-    let expenseName;
+    let item;
 
     do {
-        expenseName = prompt(message);
-    } while (!isCorrectString(expenseName));
+        item = prompt(message);
+    } while (!isCorrectString(item));
 
-    return expenseName;
+    return item;
 }
 
 function askExpenseAmount() {
@@ -147,7 +159,7 @@ function askExpenseAmount() {
     return + parseFloat(expenseAmount).toFixed(2);
 }
 
-function hasExpenseName(expenses, expenseName) {
+function hasExpenseItem(expenses, expenseName) {
     return expenses[expenseName] !== undefined;
 }
 
@@ -175,6 +187,16 @@ function askSavePercent() {
     return + parseFloat(percent).toFixed(2);
 }
 
+function askOptExpenseItem() {
+    const message = 'What is your optional expence item?';
+    let item;
+
+    do {
+        item = prompt(message);
+    } while (!isCorrectString(item));
+
+    return item;
+}
 
 // helper functions
 function isCorrectNumber(data) {
