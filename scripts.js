@@ -32,7 +32,7 @@ function askMonthlyBudget() {
 
     do {
         money = prompt(message, defaultValue);
-    } while (!isCorrectNumber(money));
+    } while  ( !isCorrectNumber(money) );
 
     appData.budget = + parseFloat(money).toFixed(2);
 }
@@ -45,7 +45,7 @@ function askTimeData() {
 
     do {
         time = prompt(message, defaultValue);
-    } while (!hasCorrectTimeFormat(time));
+    } while  ( !hasCorrectTimeFormat(time) );
 
     appData.timeData = time;
 
@@ -141,7 +141,7 @@ function askExpenseItem(i) {
 
     do {
         item = prompt(message);
-    } while (!isCorrectString(item));
+    } while ( !isCorrectString(item) );
 
     return item;
 }
@@ -154,7 +154,7 @@ function askExpenseAmount() {
 
     do {
         expenseAmount = prompt(message, defaultValue);
-    } while (!isCorrectNumber(expenseAmount));
+    } while ( !isCorrectNumber(expenseAmount) );
 
     return + parseFloat(expenseAmount).toFixed(2);
 }
@@ -193,7 +193,7 @@ function askOptExpenseItem() {
 
     do {
         item = prompt(message);
-    } while (!isCorrectString(item));
+    } while ( !isCorrectString(item) );
 
     return item;
 }
