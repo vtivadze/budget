@@ -163,6 +163,36 @@
         }
     };
     
+    let startBtn = document.getElementById('start'),
+
+        budget = document.querySelector('.budget-value'),
+        daybudget = document.querySelector('.daybudget-value'),
+        level = document.querySelector('.level-value'),
+        expenses = document.querySelector('.expenses-value'),
+        optionalexpenses = document.querySelector('.optionalexpenses-value'),
+        income = document.querySelector('.income-value'),
+        monthsavings = document.querySelector('.monthsavings-value'),
+        yearsavings = document.querySelector('.yearsavings-value'),
+        
+        expensesItem = document.querySelectorAll('.expenses-item'),
+
+        btn = document.getElementsByTagName('button'),
+        expensesItemBtn = btn[0],
+        optionalexpensesBtn = btn[1],
+        countBudgetBtn = btn[2],
+        
+        optionalExpensesItem = document.querySelectorAll('.optionalexpenses-item'),
+        
+        chooseIncome = document.querySelector('.choose-income'),
+        checkSavings = document.querySelector('.checksavings input'),
+        chooseSum = document.querySelector('.choose-sum'),
+        choosePercent = document.querySelector('.choose-percent'),
+        yearValue = document.querySelector('.year-value'),
+        monthValue = document.querySelector('.month-value'),
+        dayValue = document.querySelector('day-value');
+
+        console.log(btn);
+
     // start();
     
     // alert( appData.detectLevel() );
