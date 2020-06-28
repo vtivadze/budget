@@ -165,19 +165,19 @@
     
     let startBtn = document.getElementById('start'),
 
-        budget = document.querySelector('.budget-value'),
-        daybudget = document.querySelector('.daybudget-value'),
-        level = document.querySelector('.level-value'),
-        expenses = document.querySelector('.expenses-value'),
-        optionalexpenses = document.querySelector('.optionalexpenses-value'),
-        income = document.querySelector('.income-value'),
-        monthsavings = document.querySelector('.monthsavings-value'),
-        yearsavings = document.querySelector('.yearsavings-value'),
+        budgetValue = document.querySelector('.budget-value'),
+        dayBudgetValue = document.querySelector('.daybudget-value'),
+        levelValue = document.querySelector('.level-value'),
+        expensesValue = document.querySelector('.expenses-value'),
+        optionalExpensesValue = document.querySelector('.optionalexpenses-value'),
+        incomeValue = document.querySelector('.income-value'),
+        monthSavingsValue = document.querySelector('.monthsavings-value'),
+        yearSavingsValue = document.querySelector('.yearsavings-value'),
         
         expensesItem = document.querySelectorAll('.expenses-item'),
 
-        expensesItemBtn = document.getElementsByTagName('button')[0],
-        optionalexpensesBtn = document.getElementsByTagName('button')[1],
+        expensesBtn = document.getElementsByTagName('button')[0],
+        optionalExpensesBtn = document.getElementsByTagName('button')[1],
         countBudgetBtn = document.getElementsByTagName('button')[2],
         
         optionalExpensesItem = document.querySelectorAll('.optionalexpenses-item'),
