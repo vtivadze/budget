@@ -168,13 +168,13 @@
     // alert( appData.detectLevel() );
     
     // appData.chooseOptExpenses();
-    appData.chooseIncome();
+    // appData.chooseIncome();
 
-    console.log(appData);
-    console.log("Our progrom includs datas: ");
-    for (let data in appData) {
-        console.log(data);
-    }
+    // console.log(appData);
+    // console.log("Our progrom includs datas: ");
+    // for (let data in appData) {
+    //     console.log(data);
+    // }
     
     //  app functions
     function start() {
