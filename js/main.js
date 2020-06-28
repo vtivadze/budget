@@ -176,10 +176,9 @@
         
         expensesItem = document.querySelectorAll('.expenses-item'),
 
-        btn = document.getElementsByTagName('button'),
-        expensesItemBtn = btn[0],
-        optionalexpensesBtn = btn[1],
-        countBudgetBtn = btn[2],
+        expensesItemBtn = document.getElementsByTagName('button')[0],
+        optionalexpensesBtn = document.getElementsByTagName('button')[1],
+        countBudgetBtn = document.getElementsByTagName('button')[2],
         
         optionalExpensesItem = document.querySelectorAll('.optionalexpenses-item'),
         
@@ -191,7 +190,7 @@
         monthValue = document.querySelector('.month-value'),
         dayValue = document.querySelector('day-value');
 
-        console.log(btn);
+        // console.log(expensesItemBtn);
 
     // start();
     
