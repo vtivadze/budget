@@ -1,264 +1,299 @@
-(function () {
-    'use strict';
 
-    let startBtn = document.getElementById('start'),
+'use strict';
 
-        budgetValue = document.querySelector('.budget-value'),
-        dayBudgetValue = document.querySelector('.daybudget-value'),
-        levelValue = document.querySelector('.level-value'),
-        expensesValue = document.querySelector('.expenses-value'),
-        optionalExpensesValue = document.querySelector('.optionalexpenses-value'),
-        incomeValue = document.querySelector('.income-value'),
-        monthSavingsValue = document.querySelector('.monthsavings-value'),
-        yearSavingsValue = document.querySelector('.yearsavings-value'),
-        
-        expensesItem = document.querySelectorAll('.expenses-item'),
+let startBtn = document.getElementById('start'),
 
-        expensesBtn = document.getElementsByTagName('button')[0],
-        optionalExpensesBtn = document.getElementsByTagName('button')[1],
-        countBudgetBtn = document.getElementsByTagName('button')[2],
-        
-        optionalExpensesItem = document.querySelectorAll('.optionalexpenses-item'),
-        
-        chooseIncome = document.querySelector('.choose-income'),
-        checkSavings = document.querySelector('.checksavings input'),
-        sumValue = document.querySelector('.choose-sum'),
-        percentValue = document.querySelector('.choose-percent'),
-        yearValue = document.querySelector('.year-value'),
-        monthValue = document.querySelector('.month-value'),
-        dayValue = document.querySelector('.day-value');
-
-    let appData = {
-        budget: 0,
-        expenses: {},
-        optionalExpenses: {},
-        income: [],
-        timeData: '',
-        savings: false,
-
-        messages: {
-            monthlyBudget: 'What is your budget for a month?',
-            timeData: 'Enter date in format YYYY-MM-DD',
-            chooseExpenses: 'Such obligatory expenses item already exists!',
-            lowLevel: 'Minimal wealth level!',
-            middleLevel: 'Middle wealth level!',
-            highLevel: 'High wealth level!',
-            errorLevel: 'An error has occured!',
-        },
-
-        defaults: {
-            monthlyBudget: 'Enter positive number value',
-            timeData: 'Format is obligatory',
-        },
-
-        settings: {
-            decimalDigitCount: 2,
-            expensesCount: expensesItem.length / 2,
-            daysInMonth: 30,
-            lowBoundary: 100,
-            highBoundary: 2000,
-            optExpensesCount: optionalExpensesItem.length,
-            incomeDelimiter: ', ',
-        },
+    budgetValue = document.querySelector('.budget-value'),
+    dayBudgetValue = document.querySelector('.daybudget-value'),
+    levelValue = document.querySelector('.level-value'),
+    expensesValue = document.querySelector('.expenses-value'),
+    optionalExpensesValue = document.querySelector('.optionalexpenses-value'),
+    incomeValue = document.querySelector('.income-value'),
+    monthSavingsValue = document.querySelector('.monthsavings-value'),
+    yearSavingsValue = document.querySelector('.yearsavings-value'),
     
-        askMonthlyBudget: function () {
-            let money = askForCorrectNumber(this.messages.monthlyBudget, this.defaults.monthlyBudget);
-            money = + parseFloat(money).toFixed(this.settings.decimalDigitCount);
+    expensesItem = document.querySelectorAll('.expenses-item'),
 
-            appData.budget = money;
-            budgetValue.textContent = money;
-        },
+    expensesBtn = document.getElementsByTagName('button')[0],
+    optionalExpensesBtn = document.getElementsByTagName('button')[1],
+    countBudgetBtn = document.getElementsByTagName('button')[2],
     
-        askTimeData: function () {
-            let time = askForCorrectDate(this.messages.timeData, this.defaults.timeData);
-            time = new Date(Date.parse(time));
-
-            appData.timeData = time;
-            yearValue.value = time.getFullYear();
-            monthValue.value = time.toLocaleString('default', { month: 'long' });
-            dayValue.value = time.getDate();
-        },
+    optionalExpensesItem = document.querySelectorAll('.optionalexpenses-item'),
     
-        chooseExpenses: function () {
-            let expenses = {};
-            let sum = 0;
-        
-            for (let i = 0; i < this.settings.expensesCount; i++) {
-                let item = expensesItem[i * 2].value;
-            
-                if (this.hasExpenseItem(expenses, item)) {
-                    alert(this.messages.chooseExpenses);
-                    i--;
-                    continue;
-                }
+    chooseIncome = document.querySelector('.choose-income'),
+    checkSavings = document.querySelector('.checksavings input'),
+    sumValue = document.querySelector('.choose-sum'),
+    percentValue = document.querySelector('.choose-percent'),
+    yearValue = document.querySelector('.year-value'),
+    monthValue = document.querySelector('.month-value'),
+    dayValue = document.querySelector('.day-value');
 
-                let amount = + parseFloat(expensesItem[i * 2 + 1].value).toFixed(this.settings.decimalDigitCount);
-                expenses[item] = amount;
+let appData = {
+    budget: 0,
+    expenses: {},
+    optionalExpenses: {},
+    income: [],
+    timeData: '',
+    savings: false,
 
-                sum += amount;
+    messages: {
+        monthlyBudget: 'What is your budget for a month?',
+        timeData: 'Enter date in format YYYY-MM-DD',
+        emptyExpenseItem: 'Expense item is required',
+        emptyExpenseAmount: 'Expense amount is required',
+        chooseExpenses: 'Such obligatory expenses item already exists!',
+        lowLevel: 'Minimal wealth level!',
+        middleLevel: 'Middle wealth level!',
+        highLevel: 'High wealth level!',
+        errorLevel: 'An error has occured!',
+    },
+
+    defaults: {
+        monthlyBudget: 'Enter positive number value',
+        timeData: 'Format is obligatory',
+    },
+
+    settings: {
+        decimalDigitCount: 2,
+        expensesCount: expensesItem.length / 2,
+        daysInMonth: 30,
+        lowBoundary: 100,
+        highBoundary: 2000,
+        optExpensesCount: optionalExpensesItem.length,
+        incomeDelimiter: ', ',
+    },
+
+    askMonthlyBudget: function () {
+        let money = askForCorrectNumber(this.messages.monthlyBudget, this.defaults.monthlyBudget);
+        money = + parseFloat(money).toFixed(this.settings.decimalDigitCount);
+
+        appData.budget = money;
+        budgetValue.textContent = money;
+    },
+
+    askTimeData: function () {
+        let time = askForCorrectDate(this.messages.timeData, this.defaults.timeData);
+        time = new Date(Date.parse(time));
+
+        appData.timeData = time;
+        yearValue.value = time.getFullYear();
+        monthValue.value = time.toLocaleString('default', { month: 'long' });
+        dayValue.value = time.getDate();
+    },
+
+    chooseExpenses: function () {
+        let expenses = {};
+        let sum = 0;
+    
+        for (let i = 0; i < this.settings.expensesCount; i++) {
+            let item = expensesItem[i * 2].value;
+
+            if (item == '') {
+                alert(this.messages.emptyExpenseItem);
+                return;
             }
         
-            appData.expenses = expenses;
-            expensesValue.textContent = sum;
-        },
-    
-        detectDayBudget: function () {
-            appData.moneyPerDay = Math.round( (appData.budget / this.settings.daysInMonth) * 100 ) / 100;
-            dayBudgetValue.textContent = appData.moneyPerDay;
-        },
-    
-        detectLevel: function () {
-            let moneyPerDay = appData.moneyPerDay;
-        
-            if (moneyPerDay < this.settings.lowBoundary) {
-                levelValue.textContent = this.messages.lowLevel;
-            } else if (moneyPerDay <= this.settings.highBoundary) {
-                levelValue.textContent = this.messages.middleLevel;
-            } else if (moneyPerDay > this.settings.highBoundary) {
-                levelValue.textContent = this.messages.highLevel;
-            } else {
-                levelValue.textContent = this.messages.errorLevel;
+            if (this.hasExpenseItem(expenses, item)) {
+                alert(this.messages.chooseExpenses);
+                return;
             }
 
-        },
-    
-        countSavings: function () {
-            let sum = +sumValue.value,
-                percent = + percentValue.value;
+            let amount = expensesItem[i * 2 + 1].value;
 
-            let monthlyIncome = sum / 100 / 12 * percent;
-            this.monthlyIncome = + parseFloat(monthlyIncome);
-            monthSavingsValue.textContent = this.monthlyIncome.toFixed(this.settings.decimalDigitCount);
-
-            let yearIncome = sum / 100 * percent;
-            this.yearIncome = + parseFloat(yearIncome);
-            yearSavingsValue.textContent = this.yearIncome.toFixed(this.settings.decimalDigitCount);
-        },
-    
-        chooseOptExpenses: function () {
-            for (let i = 0; i < this.settings.optExpensesCount; i++) {
-                appData.optionalExpenses[i] = optionalExpensesItem[i].value;
-                optionalExpensesValue.textContent += appData.optionalExpenses[i] + ' ';
+            if (amount == 0) {
+                alert(this.messages.emptyExpenseAmount);
+                return;
             }
-        },
 
-        chooseIncome: function () {
-            let income = chooseIncome.value;
-            incomeValue.textContent = income;
-            appData.income = income.split(appData.settings.incomeDelimiter);
-        },
+            amount = + parseFloat(amount).toFixed(this.settings.decimalDigitCount);
+            expenses[item] = amount;
 
-        hasExpenseItem: function (expenses, expenseName) {
-            return expenses[expenseName] !== undefined;
-        },
-
-    };
-
-    // app logic
-    startBtn.addEventListener('click', function () {
-        appData.askTimeData();
-        appData.askMonthlyBudget();
-    });
-
-    expensesBtn.addEventListener('click', function () {
-        appData.chooseExpenses();
-    });
-
-    optionalExpensesBtn.addEventListener('click', function () {
-        appData.chooseOptExpenses();
-    });
-
-    countBudgetBtn.addEventListener('click', function () {
-        if (appData.budget === 0 || appData.budget == undefined) {
-            dayBudgetValue.textContent = 'There was an error!';
-            alert('First count monthly budget!');
-            return;
-        }
-
-        appData.detectDayBudget();
-        appData.detectLevel();
-    });
-    
-    chooseIncome.addEventListener('input', function () {
-        appData.chooseIncome();
-    });
-
-    checkSavings.addEventListener('click', function () {
-        appData.savings = !appData.savings;
-    });
-
-    sumValue.addEventListener('input', function () {
-        if (appData.savings == true && +percentValue.value) {
-            appData.countSavings();
-        }
-    });
-
-    percentValue.addEventListener('input', function () {
-        if (appData.savings == true && +sumValue.value) {
-            appData.countSavings();
-        }
-    });
-
-    // helper functions
-    function isCorrectNumber(data) {
-        const minNumber = 0;
-        const maxNumber = 5000;
-    
-        let isNumber = data !== null && data !== '' && !isNaN(data);
-        if ( ! isNumber ) {
-            alert('Enter number value!');
-            return false;
+            sum += amount;
         }
     
-        let isCorrectNumber = data > minNumber && data < maxNumber;
-        if ( ! isCorrectNumber ) {
-            alert('Enter number between ' + minNumber + ' and ' + maxNumber + '!');
-            return false;
+        appData.expenses = expenses;
+        expensesValue.textContent = sum;
+    },
+
+    detectDayBudget: function () {
+        let expensesSum = this.getExpensesSum();
+        let budget = appData.budget - expensesSum;
+
+        appData.moneyPerDay = Math.round( (budget / this.settings.daysInMonth) * 100 ) / 100;
+        dayBudgetValue.textContent = appData.moneyPerDay;
+    },
+
+    getExpensesSum: function () {
+        let expensesSum = 0;
+
+        for (let item in this.expenses) {
+            expensesSum += this.expenses[item];
         }
+
+        return expensesSum;
+    },
+
+    detectLevel: function () {
+        let moneyPerDay = appData.moneyPerDay;
     
-        return true;
+        if (moneyPerDay < this.settings.lowBoundary) {
+            levelValue.textContent = this.messages.lowLevel;
+        } else if (moneyPerDay <= this.settings.highBoundary) {
+            levelValue.textContent = this.messages.middleLevel;
+        } else if (moneyPerDay > this.settings.highBoundary) {
+            levelValue.textContent = this.messages.highLevel;
+        } else {
+            levelValue.textContent = this.messages.errorLevel;
+        }
+
+    },
+
+    countSavings: function () {
+        let sum = +sumValue.value,
+            percent = + percentValue.value;
+
+        let monthlyIncome = sum / 100 / 12 * percent;
+        this.monthlyIncome = + parseFloat(monthlyIncome);
+        monthSavingsValue.textContent = this.monthlyIncome.toFixed(this.settings.decimalDigitCount);
+
+        let yearIncome = sum / 100 * percent;
+        this.yearIncome = + parseFloat(yearIncome);
+        yearSavingsValue.textContent = this.yearIncome.toFixed(this.settings.decimalDigitCount);
+    },
+
+    chooseOptExpenses: function () {
+        for (let i = 0; i < this.settings.optExpensesCount; i++) {
+            appData.optionalExpenses[i] = optionalExpensesItem[i].value;
+            optionalExpensesValue.textContent += appData.optionalExpenses[i] + ' ';
+        }
+    },
+
+    chooseIncome: function () {
+        let income = chooseIncome.value;
+        incomeValue.textContent = income;
+        appData.income = income.split(appData.settings.incomeDelimiter);
+    },
+
+    hasExpenseItem: function (expenses, expenseName) {
+        return expenses[expenseName] !== undefined;
+    },
+
+};
+
+// app logic
+document.addEventListener('DOMContentLoaded', function () {
+    expensesBtn.disabled = true;
+    optionalExpensesBtn.disabled = true;
+    countBudgetBtn.disabled = true;
+});
+
+startBtn.addEventListener('click', function () {
+    appData.askTimeData();
+    appData.askMonthlyBudget();
+
+    expensesBtn.disabled = false;
+    optionalExpensesBtn.disabled = false;
+    countBudgetBtn.disabled = false;
+});
+
+expensesBtn.addEventListener('click', function () {
+    appData.chooseExpenses();
+});
+
+optionalExpensesBtn.addEventListener('click', function () {
+    appData.chooseOptExpenses();
+});
+
+countBudgetBtn.addEventListener('click', function () {
+    if (appData.budget === 0 || appData.budget == undefined) {
+        dayBudgetValue.textContent = 'There was an error!';
+        alert('First count monthly budget!');
+        return;
     }
-    
-    function hasCorrectTimeFormat(time) {
-        const timeFormat = '^20[0-9]{2}-(0[0-9]{1}|1[0-2]{1})-([0-2]{1}[0-9]{1}|3[0-1]{1})$';
-        const regexpTime = RegExp(timeFormat);
-    
-        return regexpTime.test(time);
+
+    appData.detectDayBudget();
+    appData.detectLevel();
+});
+
+chooseIncome.addEventListener('input', function () {
+    appData.chooseIncome();
+});
+
+checkSavings.addEventListener('click', function () {
+    appData.savings = !appData.savings;
+});
+
+sumValue.addEventListener('input', function () {
+    if (appData.savings == true && +percentValue.value) {
+        appData.countSavings();
     }
-    
-    // function isCorrectString(data) {
-    //     const allowedStringLength = 200;
-    
-    //     return (
-    //         typeof(data) === 'string' &&
-    //         data !== '' &&
-    //         data.length <= allowedStringLength
-    //     );
-    // }
+});
 
-    function askForCorrectNumber(msg, def) {
-        return askFor(msg, def, isCorrectNumber);
+percentValue.addEventListener('input', function () {
+    if (appData.savings == true && +sumValue.value) {
+        appData.countSavings();
+    }
+});
+
+// helper functions
+function isCorrectNumber(data) {
+    const minNumber = 0;
+    const maxNumber = 5000;
+
+    let isNumber = data !== null && data !== '' && !isNaN(data);
+    if ( ! isNumber ) {
+        alert('Enter number value!');
+        return false;
     }
 
-    function askForCorrectDate(msg, def) {
-        return askFor(msg, def, hasCorrectTimeFormat);
+    let isCorrectNumber = data > minNumber && data < maxNumber;
+    if ( ! isCorrectNumber ) {
+        alert('Enter number between ' + minNumber + ' and ' + maxNumber + '!');
+        return false;
     }
 
-    // function askForCorrectString(msg, def) {
-    //     return askFor(msg, def, isCorrectString);
-    // }
+    return true;
+}
 
-    function askFor(msg, def, check) {
-        let dt;
+function hasCorrectTimeFormat(time) {
+    const timeFormat = '^20[0-9]{2}-(0[0-9]{1}|1[0-2]{1})-([0-2]{1}[0-9]{1}|3[0-1]{1})$';
+    const regexpTime = RegExp(timeFormat);
 
-        do {
-            dt = prompt(msg, def);
-        } while ( !check(dt) );
+    return regexpTime.test(time);
+}
 
-        return dt;
+// function isCorrectString(data) {
+//     const allowedStringLength = 200;
 
-    }
-    
-}());
+//     return (
+//         typeof(data) === 'string' &&
+//         data !== '' &&
+//         data.length <= allowedStringLength
+//     );
+// }
+
+function askForCorrectNumber(msg, def) {
+    return askFor(msg, def, isCorrectNumber);
+}
+
+function askForCorrectDate(msg, def) {
+    return askFor(msg, def, hasCorrectTimeFormat);
+}
+
+// function askForCorrectString(msg, def) {
+//     return askFor(msg, def, isCorrectString);
+// }
+
+function askFor(msg, def, check) {
+    let dt;
+
+    do {
+        dt = prompt(msg, def);
+    } while ( !check(dt) );
+
+    return dt;
+
+}
+
 
 
