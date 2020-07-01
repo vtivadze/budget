@@ -1,32 +1,32 @@
 
 'use strict';
 
-let startBtn = document.getElementById('start'),
+let startBtn = document.getElementById('start');
 
-    budgetValue = document.querySelector('.budget-value'),
-    dayBudgetValue = document.querySelector('.daybudget-value'),
-    levelValue = document.querySelector('.level-value'),
-    expensesValue = document.querySelector('.expenses-value'),
-    optionalExpensesValue = document.querySelector('.optionalexpenses-value'),
-    incomeValue = document.querySelector('.income-value'),
-    monthSavingsValue = document.querySelector('.monthsavings-value'),
-    yearSavingsValue = document.querySelector('.yearsavings-value'),
+let budgetValue = document.querySelector('.budget-value');
+let dayBudgetValue = document.querySelector('.daybudget-value');
+let levelValue = document.querySelector('.level-value');
+let expensesValue = document.querySelector('.expenses-value');
+let optionalExpensesValue = document.querySelector('.optionalexpenses-value');
+let incomeValue = document.querySelector('.income-value');
+let monthSavingsValue = document.querySelector('.monthsavings-value');
+let yearSavingsValue = document.querySelector('.yearsavings-value');
     
-    expensesItem = document.querySelectorAll('.expenses-item'),
+let expensesItem = document.querySelectorAll('.expenses-item');
 
-    expensesBtn = document.getElementsByTagName('button')[0],
-    optionalExpensesBtn = document.getElementsByTagName('button')[1],
-    countBudgetBtn = document.getElementsByTagName('button')[2],
+let expensesBtn = document.getElementsByTagName('button')[0];
+let optionalExpensesBtn = document.getElementsByTagName('button')[1];
+let countBudgetBtn = document.getElementsByTagName('button')[2];
     
-    optionalExpensesItem = document.querySelectorAll('.optionalexpenses-item'),
+let optionalExpensesItem = document.querySelectorAll('.optionalexpenses-item');
     
-    chooseIncome = document.querySelector('.choose-income'),
-    checkSavings = document.querySelector('.checksavings input'),
-    sumValue = document.querySelector('.choose-sum'),
-    percentValue = document.querySelector('.choose-percent'),
-    yearValue = document.querySelector('.year-value'),
-    monthValue = document.querySelector('.month-value'),
-    dayValue = document.querySelector('.day-value');
+let chooseIncome = document.querySelector('.choose-income');
+let checkSavings = document.querySelector('.checksavings input');
+let sumValue = document.querySelector('.choose-sum');
+let percentValue = document.querySelector('.choose-percent');
+let yearValue = document.querySelector('.year-value');
+let monthValue = document.querySelector('.month-value');
+let dayValue = document.querySelector('.day-value');
 
 let appData = {
     budget: 0,
