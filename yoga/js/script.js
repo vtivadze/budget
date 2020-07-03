@@ -54,6 +54,10 @@ window.addEventListener('DOMContentLoaded', function () {
                 seconds = Math.floor(milliseconds / 1000) % 60;
                 minutes = Math.floor(milliseconds / 1000 / 60) % 60;
                 hours = Math.floor(milliseconds / 1000 / 60 / 60);
+
+                seconds = seconds < 10 ? '0' + seconds : seconds;
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                hours = hours < 10 ? '0' + hours : hours;
             }
 
             return {
