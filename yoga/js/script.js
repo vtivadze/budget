@@ -25,25 +25,36 @@ window.addEventListener('DOMContentLoaded', function () {
         let minutesElement = timerContainer.querySelector(minutesClass);
         let secondsElement = timerContainer.querySelector(secondsClass);
 
-        let timerIntervalId = setInterval(updateTimer, 1000, hoursElement, minutesElement, secondsElement);
+        let timerIntervalId = setInterval(updateTimer, 1000);
 
-        function updateTimer(hoursElement, minutesElement, secondsElement) {
+        function updateTimer() {
             let timeData = getRemainingTimeData(deadline);
 
-            hoursElement.textContent = timeData.hours;
-            minutesElement.textContent = timeData.minutes;
-            secondsElement.textContent = timeData.seconds;
+            setTime(timeData);
 
             if (timeData.milliseconds <= 0) {
                 clearInterval(timerIntervalId);
             }
         }
 
+        function setTime(timeData) {
+            hoursElement.textContent = timeData.hours;
+            minutesElement.textContent = timeData.minutes;
+            secondsElement.textContent = timeData.seconds;
+        }
+
         function getRemainingTimeData(deadline) {
+            let seconds = '00';
+            let minutes = '00';
+            let hours = '00';
+
             let milliseconds = Date.parse(deadline) - Date.parse(new Date());
-            let seconds = Math.floor(milliseconds / 1000) % 60;
-            let minutes = Math.floor(milliseconds / 1000 / 60) % 60;
-            let hours = Math.floor(milliseconds / 1000 / 60 / 60);
+
+            if (milliseconds > 0) {
+                seconds = Math.floor(milliseconds / 1000) % 60;
+                minutes = Math.floor(milliseconds / 1000 / 60) % 60;
+                hours = Math.floor(milliseconds / 1000 / 60 / 60);
+            }
 
             return {
                 milliseconds,
