@@ -104,9 +104,7 @@ window.addEventListener('DOMContentLoaded', function () {
             btnModalClose = document.querySelector('.popup-close');
 
         btnModalOpen.addEventListener('click', function() {
-            modalWindow.style.display = 'block';
-            this.classList.add('more-splash');
-            document.body.style.overflow = 'hidden';
+            callModalWindow(this);
         });
 
         btnModalClose.addEventListener('click', function() {
@@ -114,6 +112,12 @@ window.addEventListener('DOMContentLoaded', function () {
             btnModalOpen.classList.remove('more-splash');
             document.body.style.overflow = '';
         });
+
+        function callModalWindow(btnOpen) {
+            modalWindow.style.display = 'block';
+            btnOpen.classList.add('more-splash');
+            document.body.style.overflow = 'hidden';
+        }
     }
 
 
