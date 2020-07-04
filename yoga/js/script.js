@@ -2,6 +2,19 @@ window.addEventListener('DOMContentLoaded', function () {
 
     'use strict';
 
+    let tabContainer = document.querySelector('.info-header'),
+            tab = document.querySelectorAll('.info-header-tab'),
+            tabContent = document.querySelectorAll('.info-tabcontent');
+
+    let hoursElement = document.querySelector('.hours'),
+        minutesElement = document.querySelector('.minutes'),
+        secondsElement = document.querySelector('.seconds'),
+        deadline = '2020-07-06';
+
+    let btnModalOpen = document.querySelector('.more'),
+        modalWindow = document.querySelector('.overlay'),
+        btnModalClose = document.querySelector('.popup-close');
+
     initiate();
 
     function initiate() {
@@ -11,12 +24,6 @@ window.addEventListener('DOMContentLoaded', function () {
     }   
 
     function timer() {
-        let timerContainer = document.getElementById('.timer'),
-            hoursElement = document.querySelector('.hours'),
-            minutesElement = document.querySelector('.minutes'),
-            secondsElement = document.querySelector('.seconds'),
-            deadline = '2020-07-06';
-
         let timerIntervalId = setInterval(updateTimer, 1000);
 
         function updateTimer() {
@@ -62,9 +69,6 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 
     function tabs() {
-        let tabContainer = document.querySelector('.info-header'),
-            tab = document.querySelectorAll('.info-header-tab'),
-            tabContent = document.querySelectorAll('.info-tabcontent');
 
         function hideAllTabContents() {
             for (let i = 0; i < tabContent.length; i++) {
@@ -99,10 +103,6 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 
     function modal() {
-        let btnModalOpen = document.querySelector('.more'),
-            modalWindow = document.querySelector('.overlay'),
-            btnModalClose = document.querySelector('.popup-close');
-
         btnModalOpen.addEventListener('click', function() {
             callModalWindow(this);
         });
