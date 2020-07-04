@@ -3,8 +3,8 @@ window.addEventListener('DOMContentLoaded', function () {
     'use strict';
 
     let tabContainer = document.querySelector('.info-header'),
-            tab = document.querySelectorAll('.info-header-tab'),
-            tabContent = document.querySelectorAll('.info-tabcontent');
+        tab = document.querySelectorAll('.info-header-tab'),
+        tabContent = document.querySelectorAll('.info-tabcontent');
 
     let hoursElement = document.querySelector('.hours'),
         minutesElement = document.querySelector('.minutes'),
@@ -13,7 +13,8 @@ window.addEventListener('DOMContentLoaded', function () {
 
     let btnModalOpen = document.querySelector('.more'),
         modalWindow = document.querySelector('.overlay'),
-        btnModalClose = document.querySelector('.popup-close');
+        btnModalClose = document.querySelector('.popup-close'),
+        infoContainer = document.querySelector('.info');
 
     initiate();
 
@@ -88,7 +89,7 @@ window.addEventListener('DOMContentLoaded', function () {
         tabContainer.addEventListener('click', function (event) {
             let target = event.target;
 
-            if (target && target.classList.contains(tabClass)) {
+            if (target && target.classList.contains('info-header-tab')) {
                 hideAllTabContents();
                 
                 for (let i = 0; i < tab.length; i++) {
@@ -105,6 +106,14 @@ window.addEventListener('DOMContentLoaded', function () {
     function modal() {
         btnModalOpen.addEventListener('click', function() {
             callModalWindow(this);
+        });
+
+        infoContainer.addEventListener('click', function (event) {
+            let target = event.target;
+
+            if (target && target.classList.contains('description-btn')) {
+                callModalWindow(target);
+            }
         });
 
         btnModalClose.addEventListener('click', function() {
