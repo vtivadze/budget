@@ -2,22 +2,18 @@ window.addEventListener('DOMContentLoaded', function () {
 
     'use strict';
 
-    let tabContainerClass = '.info-header',
-        tabClass = '.info-header-tab',
-        tabContentClass = '.info-tabcontent';
-
-    let timerContainerId = 'timer',
-        hoursClass = '.hours',
-        minutesClass = '.minutes',
-        secondsClass = '.seconds',
-        deadline = '2020-07-06';
-
     initiate();
 
     function initiate() {
         tabs(tabContainerClass, tabClass, tabContentClass);
         timer(timerContainerId, hoursClass, minutesClass, secondsClass, deadline);
     }
+
+    let timerContainerId = 'timer',
+        hoursClass = '.hours',
+        minutesClass = '.minutes',
+        secondsClass = '.seconds',
+        deadline = '2020-07-06';
 
     function timer(timerContainerId, hoursClass, minutesClass, secondsClass, deadline) {
         let timerContainer = document.getElementById(timerContainerId);
@@ -69,6 +65,10 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    let tabContainerClass = '.info-header',
+        tabClass = '.info-header-tab',
+        tabContentClass = '.info-tabcontent';
+
     function tabs(tabContainerClass, tabClass, tabContentClass) {
         let tabContainer = document.querySelector(tabContainerClass);
         let tab = document.querySelectorAll(tabClass);
@@ -105,5 +105,7 @@ window.addEventListener('DOMContentLoaded', function () {
         });
 
     }
+
+    
 
 });
