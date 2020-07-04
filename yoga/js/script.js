@@ -5,21 +5,17 @@ window.addEventListener('DOMContentLoaded', function () {
     initiate();
 
     function initiate() {
-        tabs(tabContainerClass, tabClass, tabContentClass);
-        timer(timerContainerId, hoursClass, minutesClass, secondsClass, deadline);
-    }
+        tabs();
+        timer();
+        modal();
+    }   
 
-    let timerContainerId = 'timer',
-        hoursClass = '.hours',
-        minutesClass = '.minutes',
-        secondsClass = '.seconds',
-        deadline = '2020-07-06';
-
-    function timer(timerContainerId, hoursClass, minutesClass, secondsClass, deadline) {
-        let timerContainer = document.getElementById(timerContainerId);
-        let hoursElement = timerContainer.querySelector(hoursClass);
-        let minutesElement = timerContainer.querySelector(minutesClass);
-        let secondsElement = timerContainer.querySelector(secondsClass);
+    function timer() {
+        let timerContainer = document.getElementById('.timer'),
+            hoursElement = document.querySelector('.hours'),
+            minutesElement = document.querySelector('.minutes'),
+            secondsElement = document.querySelector('.seconds'),
+            deadline = '2020-07-06';
 
         let timerIntervalId = setInterval(updateTimer, 1000);
 
@@ -65,14 +61,10 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    let tabContainerClass = '.info-header',
-        tabClass = '.info-header-tab',
-        tabContentClass = '.info-tabcontent';
-
-    function tabs(tabContainerClass, tabClass, tabContentClass) {
-        let tabContainer = document.querySelector(tabContainerClass);
-        let tab = document.querySelectorAll(tabClass);
-        let tabContent = document.querySelectorAll(tabContentClass);
+    function tabs() {
+        let tabContainer = document.querySelector('.info-header'),
+            tab = document.querySelectorAll('.info-header-tab'),
+            tabContent = document.querySelectorAll('.info-tabcontent');
 
         function hideAllTabContents() {
             for (let i = 0; i < tabContent.length; i++) {
@@ -106,6 +98,24 @@ window.addEventListener('DOMContentLoaded', function () {
 
     }
 
-    
+    function modal() {
+        let btnModalOpen = document.querySelector('.more'),
+            modalWindow = document.querySelector('.overlay'),
+            btnModalClose = document.querySelector('.popup-close');
+
+        btnModalOpen.addEventListener('click', function() {
+            modalWindow.style.display = 'block';
+            this.classList.add('more-splash');
+            document.body.style.overflow = 'hidden';
+        });
+
+        btnModalClose.addEventListener('click', function() {
+            modalWindow.style.display = 'none';
+            btnModalOpen.classList.remove('more-splash');
+            document.body.style.overflow = '';
+        });
+    }
+
+
 
 });
