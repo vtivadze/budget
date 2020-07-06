@@ -8,8 +8,9 @@ window.addEventListener('DOMContentLoaded', function () {
 
     let hoursElement = document.querySelector('.hours'),
         minutesElement = document.querySelector('.minutes'),
-        secondsElement = document.querySelector('.seconds'),
-        deadline = '2020-07-06';
+        secondsElement = document.querySelector('.seconds');
+
+    const deadline = '2020-07-06';
 
     let btnModalOpen = document.querySelector('.more'),
         modalWindow = document.querySelector('.overlay'),
@@ -86,7 +87,7 @@ window.addEventListener('DOMContentLoaded', function () {
         hideAllTabContents();
         showTabContent(0);
 
-        tabContainer.addEventListener('click', function (event) {
+        tabContainer.addEventListener('click', (event) => {
             let target = event.target;
 
             if (target && target.classList.contains('info-header-tab')) {
@@ -104,11 +105,11 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 
     function modal() {
-        btnModalOpen.addEventListener('click', function() {
-            callModalWindow(this);
+        btnModalOpen.addEventListener('click', (event) => {
+            callModalWindow(event.target);
         });
 
-        infoContainer.addEventListener('click', function (event) {
+        infoContainer.addEventListener('click', (event) => {
             let target = event.target;
 
             if (target && target.classList.contains('description-btn')) {
@@ -116,7 +117,7 @@ window.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        btnModalClose.addEventListener('click', function() {
+        btnModalClose.addEventListener('click', () => {
             modalWindow.style.display = 'none';
             btnModalOpen.classList.remove('more-splash');
             document.body.style.overflow = '';
