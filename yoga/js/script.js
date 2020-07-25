@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 window.addEventListener('DOMContentLoaded', function () {
 
     'use strict';
@@ -23,6 +24,7 @@ window.addEventListener('DOMContentLoaded', function () {
         tabs();
         timer();
         modal();
+        sendFormData();
     }   
 
     function timer() {
@@ -125,8 +127,81 @@ window.addEventListener('DOMContentLoaded', function () {
 
         function callModalWindow(btnOpen) {
             modalWindow.style.display = 'block';
+
+            let statusMessage = modalWindow.querySelector('.status');
+            if (statusMessage) {
+                statusMessage.remove();
+            }
+
             btnOpen.classList.add('more-splash');
             document.body.style.overflow = 'hidden';
+        }
+    }
+
+    function sendFormData() {
+        let statusMessage = document.createElement('div');
+        statusMessage.classList.add('status');
+
+        let form = document.getElementsByTagName('form');
+        let input = [];
+
+        for (let i = 0; i < form.length; i++) {
+            input[i] = form[i].getElementsByTagName('input');
+
+            form[i].addEventListener('submit', function() {formSubmitCallback(event, form[i], input[i], statusMessage);});
+        }
+
+    }
+
+    function formSubmitCallback(event, form, input, statusMessage) {
+        event.preventDefault();
+        form.appendChild(statusMessage);
+
+        let formData = new FormData(form);
+        let json = prepareFormDataToSend(formData);
+        
+        sendData(json, statusMessage);
+        clearFormInput(input);
+    }
+
+    function prepareFormDataToSend(formData) {
+        let obj = {};
+        formData.forEach(function(value, key) {
+            obj[key] = value;
+        });
+        
+        return JSON.stringify(obj);
+    }
+
+    function sendData(json, statusMessage) {
+        let message =  {
+            loading: 'Loading...',
+            success: 'Thank you! Soon we\'ll connect to you!',
+            failure: 'Something wrong...',
+        };
+
+        let request = new XMLHttpRequest();
+        request.open('POST', 'server.php');
+        // request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+
+        // request.send(formData);
+        request.send(json);
+
+        request.addEventListener('readystatechange', function() {
+            if (request.readyState < 4) {
+                statusMessage.innerHTML = message.loading;
+            } else if (request.readyState === 4 && request.status === 200) {
+                statusMessage.innerHTML = message.success;
+            } else {
+                statusMessage.innerHTML = message.failure;
+            }
+        });
+    }
+
+    function clearFormInput(input) {
+        for (let i = 0; i < input.length; i++) {
+            input[i].value = '';
         }
     }
 
