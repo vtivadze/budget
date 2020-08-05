@@ -151,59 +151,77 @@ window.addEventListener('DOMContentLoaded', function () {
             form[i].addEventListener('submit', function() {formSubmitCallback(event, form[i], input[i], statusMessage);});
         }
 
-    }
-
-    function formSubmitCallback(event, form, input, statusMessage) {
-        event.preventDefault();
-        form.appendChild(statusMessage);
-
-        let formData = new FormData(form);
-        let json = prepareFormDataToSend(formData);
-        
-        sendData(json, statusMessage);
-        clearFormInput(input);
-    }
-
-    function prepareFormDataToSend(formData) {
-        let obj = {};
-        formData.forEach(function(value, key) {
-            obj[key] = value;
-        });
-        
-        return JSON.stringify(obj);
-    }
-
-    function sendData(json, statusMessage) {
-        let message =  {
-            loading: 'Loading...',
-            success: 'Thank you! Soon we\'ll connect to you!',
-            failure: 'Something wrong...',
-        };
-
-        let request = new XMLHttpRequest();
-        request.open('POST', 'server.php');
-        // request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-
-        // request.send(formData);
-        request.send(json);
-
-        request.addEventListener('readystatechange', function() {
-            if (request.readyState < 4) {
-                statusMessage.innerHTML = message.loading;
-            } else if (request.readyState === 4 && request.status === 200) {
-                statusMessage.innerHTML = message.success;
-            } else {
-                statusMessage.innerHTML = message.failure;
-            }
-        });
-    }
-
-    function clearFormInput(input) {
-        for (let i = 0; i < input.length; i++) {
-            input[i].value = '';
+        function formSubmitCallback(event, form, input, statusMessage) {
+            event.preventDefault();
+            form.appendChild(statusMessage);
+    
+            let formData = new FormData(form);
+            let json = prepareFormDataToSend(formData);
+            
+            sendData(json, statusMessage, input);
         }
+
+        function prepareFormDataToSend(formData) {
+            let obj = {};
+            formData.forEach(function(value, key) {
+                obj[key] = value;
+            });
+            
+            return JSON.stringify(obj);
+        }
+
+        function sendData(json, statusMessage, input) {
+            let message =  {
+                loading: 'Loading...',
+                success: 'Thank you! Soon we\'ll connect to you!',
+                failure: 'Something wrong...',
+            };
+
+            function postData(json) {
+                return new Promise(function(resolve, reject) {
+                    let request = new XMLHttpRequest();
+                    request.open('POST', 'server.php');
+                    // request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+
+                    request.addEventListener('readystatechange', function() {
+                        if (request.readyState < 4) {
+                            resolve();
+                        } else if (request.readyState === 4 && request.status === 200) {
+                            resolve();
+                        } else {
+                            reject();
+                        }
+                    });
+
+                    // request.send(formData);
+                    request.send(json);
+
+                });
+            }
+
+            postData(json, statusMessage)
+                .then(() => statusMessage.innerHTML = message.loading)
+                .then(() => statusMessage.innerHTML = message.success)
+                .catch(() => statusMessage.innerHTML = message.failure)
+                .then(clearFormInput(input));
+        }
+
+        function clearFormInput(input) {
+            for (let i = 0; i < input.length; i++) {
+                input[i].value = '';
+            }
+        }
+
     }
+
+    
+
+    
+
+    
+
+    
 
 
 
