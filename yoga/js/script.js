@@ -25,6 +25,7 @@ window.addEventListener('DOMContentLoaded', function () {
         timer();
         modal();
         sendFormData();
+        slider();
     }   
 
     function timer() {
@@ -215,6 +216,58 @@ window.addEventListener('DOMContentLoaded', function () {
 
     }
 
+    function slider() {
+        let currentSliderId = 0,
+            sliderStep = 1,
+            sliderItems = document.querySelectorAll('.slider-item'),
+            prev = document.querySelector('.prev'),
+            next = document.querySelector('.next'),
+            dotsWrapper = document.querySelector('.slider-dots'),
+            dots = document.querySelectorAll('.dot');
+
+        function showSlide() {
+            if (currentSliderId > sliderItems.length -1) {
+                currentSliderId = 0;
+            }
+            if (currentSliderId < 0) {
+                currentSliderId = sliderItems.length - 1;
+            }
+
+            sliderItems.forEach(item => item.style.display = 'none');
+            dots.forEach(item => item.classList.remove('dot-active'));
+
+            sliderItems[currentSliderId].style.display = 'block';
+            dots[currentSliderId].classList.add('dot-active');
+        }
+
+        function nextSlider(step) {
+            currentSliderId += step;
+            showSlide(); 
+        }
+
+        next.addEventListener('click', function() {
+            nextSlider(sliderStep);
+        });
+        prev.addEventListener('click', function() {
+            nextSlider(-sliderStep);
+        });
+
+        dotsWrapper.addEventListener('click', function(event) {
+
+            for (let i = 0; i < dots.length; i++) {
+                if (
+                    event.target.classList.contains('dot') &&
+                    dots[i] == event.target
+                ) {
+                    currentSliderId = i;
+                    showSlide();
+                }
+            }
+
+        });
+
+        showSlide();
+    }
     
 
     
