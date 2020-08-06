@@ -268,6 +268,38 @@ window.addEventListener('DOMContentLoaded', function () {
 
         showSlide();
     }
+
+    (function calculator() {
+        let personsValue = document.querySelectorAll('.counter-block-input')[0],
+            daysValue = document.querySelectorAll('.counter-block-input')[1],
+            placeValue = document.getElementById('select'),
+            totalValue = document.getElementById('total'),
+            personSum = 0,
+            daysSum = 0,
+            placeSum = placeValue.value;
+
+        function displayTotalSum() {
+            let totalSum = +(personSum * daysSum * placeSum * 400);
+            totalValue.innerHTML =  totalSum;
+        }
+        
+        displayTotalSum();
+
+        personsValue.addEventListener('change', function() {
+            personSum = +this.value;
+            displayTotalSum();
+        });
+
+        daysValue.addEventListener('change', function() {
+            daysSum = +this.value;
+            displayTotalSum();
+        });
+
+        placeValue.addEventListener('change', function() {
+            placeSum = +this.value;
+            displayTotalSum();
+        });
+    })();
     
 
     
